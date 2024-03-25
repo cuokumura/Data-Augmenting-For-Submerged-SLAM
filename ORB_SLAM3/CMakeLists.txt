@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
+# Set the minimum required C++ standard to C++14
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 project(ORB_SLAM3)
 
 IF(NOT CMAKE_BUILD_TYPE)
