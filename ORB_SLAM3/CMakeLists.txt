@@ -392,3 +392,10 @@ if(realsense2_FOUND)
             Examples_old/Stereo-Inertial/stereo_inertial_realsense_D435i.cc)
     target_link_libraries(stereo_inertial_realsense_D435i_old ${PROJECT_NAME})
 endif()
+
+
+# Harbor examples
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/HarborStarter/visual)
+add_executable(harbor_camera
+        HarborStarter/visual/harbor_camera.cc)
+target_link_libraries(harbor_camera ${PROJECT_NAME})

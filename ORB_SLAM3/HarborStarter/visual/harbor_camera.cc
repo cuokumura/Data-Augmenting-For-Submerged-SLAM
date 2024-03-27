@@ -20,8 +20,6 @@
 #include<algorithm>
 #include<fstream>
 #include<chrono>
-#include <image_enhancement.h>
-#include "guidedfilter.h"
 #include<opencv2/core/core.hpp>
 
 #include<System.h>
@@ -35,18 +33,18 @@ int main(int argc, char **argv)
 {  
     if(argc < 5)
     {
-        cerr << endl << "Usage: ./mono_euroc path_to_vocabulary path_to_settings path_to_sequence_folder path_to_times_file output_file [image_enhancement]" << endl;
+        cerr << endl << "Usage: ./mono_euroc path_to_vocabulary path_to_settings path_to_sequence_folder location_of_times_file output_file [image_enhancement]" << endl;
         return 1;
     }
 
     const int num_seq = 1;
     cout << "num_seq = " << num_seq << endl;
     bool bFileName= 1;
-    string file_name;
+    string output_file_name;
     if (bFileName)
     {
-        file_name = string(argv[5]);
-        cout << "file name: " << file_name << endl;
+        output_file_name = string(argv[5]);
+        cout << "output file name: " << output_file_name << endl;
     }
 
      std::string image_method = "none";
@@ -68,17 +66,17 @@ int main(int argc, char **argv)
     int tot_images = 0;
     for (seq = 0; seq<num_seq; seq++)
     {
-        cout << "Loading images for sequence " << seq << "...";
+        cout << "Loading images for sequence " << seq << "..." << std::endl;
 
         string pathSeq(argv[3]);
-        string pathTimeStamps(argv[4]);
-        cout << "PathTimeStamps = " << pathTimeStamps << endl;
+        string locationTimeStamps(argv[4]);
+        cout << "PathTimeStamps = " << locationTimeStamps << std::endl;
 
-        string pathCam0 = pathSeq + "/cam0/data";
+        string pathCam0 = pathSeq;
         string pathImu = pathSeq + "/imu0/data.csv";
 
-        LoadImages(pathCam0, pathTimeStamps, vstrImageFilenames[seq], vTimestampsCam[seq]);
-        cout << "LOADED!" << endl;
+        LoadImages(pathCam0, locationTimeStamps, vstrImageFilenames[seq], vTimestampsCam[seq]);
+        cout << "LOADED video stream!" << endl;
 
         nImages[seq] = vstrImageFilenames[seq].size();
         tot_images += nImages[seq];
@@ -120,10 +118,8 @@ int main(int argc, char **argv)
             im = cv::imread(vstrImageFilenames[seq][ni],cv::IMREAD_UNCHANGED); //CV_LOAD_IMAGE_UNCHANGED);
             
             //apply image enhancement 
-            ImageEnhancement enhancer(image_method);
-            cv::Mat filtered;
-            enhancer.enhance(im, filtered);
-            im = filtered;
+        //    cv::Mat filtered;
+        //    im = filtered;
             double tframe = vTimestampsCam[seq][ni];
 
             if(im.empty())
@@ -235,19 +231,37 @@ void LoadImages(const string &strImagePath, const string &strPathTimes,
 {
     ifstream fTimes;
     fTimes.open(strPathTimes.c_str());
-    vTimeStamps.reserve(5000);
-    vstrImages.reserve(5000);
+    vTimeStamps.reserve(20000);
+    vstrImages.reserve(20000);
+
+    // Skip the header line
+    string s;
+    std::getline(fTimes, s);
+
     while(!fTimes.eof())
     {
-        string s;
         getline(fTimes,s);
         if(!s.empty())
         {
             stringstream ss;
             ss << s;
-            vstrImages.push_back(strImagePath + "/" + ss.str() + ".png");
+
+            std::string timestamp_str, frame_id;
+
+            // Extract timestamp and frame id
+            std::getline(ss, timestamp_str, ',');
+            std::getline(ss, frame_id, ',');
+
+
+            string file_name = strImagePath + "/" + frame_id;
+            if (file_name.find(".png") != std::string::npos) {
+                vstrImages.push_back(file_name);
+            } else {
+                vstrImages.push_back(file_name + ".png");
+            }
+
             double t;
-            ss >> t;
+            std::istringstream(timestamp_str) >> t;
             vTimeStamps.push_back(t*1e-9);
 
         }
