@@ -399,3 +399,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/HarborStarter/visual)
 add_executable(harbor_camera
         HarborStarter/visual/harbor_camera.cc)
 target_link_libraries(harbor_camera ${PROJECT_NAME})
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/HarborStarter/visual-inertial)
+add_executable(harbor_camera_inertial
+        HarborStarter/visual-inertial/harbor_camera_inertial.cc)
+target_link_libraries(harbor_camera_inertial ${PROJECT_NAME})
