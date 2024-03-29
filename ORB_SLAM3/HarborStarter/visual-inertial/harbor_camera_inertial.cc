@@ -29,11 +29,14 @@ using namespace std;
 void LoadImages(const string &strImagePath, const string &strPathTimes,
                 vector<string> &vstrImages, vector<double> &vTimeStamps);
 
+void LoadIMU(const string &strImuPath, vector<double> &vTimeStamps, vector<cv::Point3f> &vAcc, vector<cv::Point3f> &vGyro);
+
+
 int main(int argc, char **argv)
 {  
     if(argc < 5)
     {
-        cerr << endl << "Usage: ./mono_euroc path_to_vocabulary path_to_settings path_to_sequence_folder location_of_times_file output_file [image_enhancement]" << endl;
+        cerr << endl << "Usage: ./mono_euroc path_to_vocabulary path_to_settings path_to_sequence_folder location_of_times_file location_of_imu_file output_file [image_enhancement]" << endl;
         return 1;
     }
 
@@ -43,13 +46,13 @@ int main(int argc, char **argv)
     string output_file_name;
     if (bFileName)
     {
-        output_file_name = string(argv[5]);
+        output_file_name = string(argv[6]);
         cout << "output file name: " << output_file_name << endl;
     }
 
-     std::string image_method = "none";
-    if (argc >= 7) {
-        image_method = std::string(argv[6]);
+    std::string image_method = "none";
+    if (argc >= 8) {
+        image_method = std::string(argv[7]);
         cout << "Image Method = " << image_method << endl;
     }
 
@@ -59,9 +62,18 @@ int main(int argc, char **argv)
     vector< vector<double> > vTimestampsCam;
     vector<int> nImages;
 
+    vector< vector<cv::Point3f> > vAcc, vGyro;
+    vector< vector<double> > vTimestampsImu;
+    vector<int> nImu;
+    vector<int> first_imu(num_seq,0);
+    
     vstrImageFilenames.resize(num_seq);
     vTimestampsCam.resize(num_seq);
+    vAcc.resize(num_seq);
+    vGyro.resize(num_seq);
+    vTimestampsImu.resize(num_seq);
     nImages.resize(num_seq);
+    nImu.resize(num_seq);
 
     int tot_images = 0;
     for (seq = 0; seq<num_seq; seq++)
@@ -73,13 +85,29 @@ int main(int argc, char **argv)
         cout << "PathTimeStamps = " << locationTimeStamps << std::endl;
 
         string pathCam0 = pathSeq;
-        string pathImu = pathSeq + "/imu0/data.csv";
+        string pathImu = argv[5];
 
         LoadImages(pathCam0, locationTimeStamps, vstrImageFilenames[seq], vTimestampsCam[seq]);
         cout << "LOADED video stream!" << endl;
 
+        cout << "Loading IMU for sequence " << seq << "...";
+        LoadIMU(pathImu, vTimestampsImu[seq], vAcc[seq], vGyro[seq]);
+        cout << "LOADED!" << endl;
+
         nImages[seq] = vstrImageFilenames[seq].size();
         tot_images += nImages[seq];
+        nImu[seq] = vTimestampsImu[seq].size();
+
+        // Find first imu to be considered, supposing imu measurements start first
+        if((nImages[seq]<=0)||(nImu[seq]<=0))
+        {
+            cerr << "ERROR: Failed to load images or IMU for sequence" << seq << endl;
+            return 1;
+        }
+
+        while(vTimestampsImu[seq][first_imu[seq]]<=vTimestampsCam[seq][0])
+            first_imu[seq]++;
+        first_imu[seq]--; // first imu measurement to be considered
     }
 
     // Vector for tracking time statistics
@@ -93,7 +121,7 @@ int main(int argc, char **argv)
     int fps = 20;
     float dT = 1.f/fps;
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
-    ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::MONOCULAR, true);
+    ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::IMU_MONOCULAR, true, 0, output_file_name);
     float imageScale = SLAM.GetImageScale();
 
     double t_resize = 0.f;
@@ -112,11 +140,13 @@ int main(int argc, char **argv)
         cv::Mat im;
         vector<ORB_SLAM3::IMU::Point> vImuMeas;
         proccIm = 0;
+        cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE(3.0, cv::Size(8, 8));
         for(int ni=0; ni<nImages[seq]; ni++, proccIm++)
         {
             // Read image from file
             im = cv::imread(vstrImageFilenames[seq][ni],cv::IMREAD_UNCHANGED); //CV_LOAD_IMAGE_UNCHANGED);
             
+        //     clahe->apply(im,im);
             //apply image enhancement 
         //    cv::Mat filtered;
         //    im = filtered;
@@ -127,6 +157,21 @@ int main(int argc, char **argv)
                 cerr << endl << "Failed to load image at: "
                      <<  vstrImageFilenames[seq][ni] << endl;
                 return 1;
+            }
+
+            // Load imu measurements from previous frame
+            vImuMeas.clear();
+            if(ni>0)
+            {
+                // cout << "t_cam " << tframe << endl;
+
+                while(vTimestampsImu[seq][first_imu[seq]]<=vTimestampsCam[seq][ni])
+                {
+                    vImuMeas.push_back(ORB_SLAM3::IMU::Point(vAcc[seq][first_imu[seq]].x,vAcc[seq][first_imu[seq]].y,vAcc[seq][first_imu[seq]].z,
+                                                             vGyro[seq][first_imu[seq]].x,vGyro[seq][first_imu[seq]].y,vGyro[seq][first_imu[seq]].z,
+                                                             vTimestampsImu[seq][first_imu[seq]]));
+                    first_imu[seq]++;
+                }
             }
 
             if(imageScale != 1.f)
@@ -160,7 +205,7 @@ int main(int argc, char **argv)
 
             // Pass the image to the SLAM system
             // cout << "tframe = " << tframe << endl;
-            SLAM.TrackMonocular(im,tframe); // TODO change to monocular_inertial
+            SLAM.TrackMonocular(im,tframe, vImuMeas); 
 
     #ifdef COMPILEDWITHC11
             std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
@@ -264,6 +309,44 @@ void LoadImages(const string &strImagePath, const string &strPathTimes,
             std::istringstream(timestamp_str) >> t;
             vTimeStamps.push_back(t*1e-9);
 
+        }
+    }
+}
+
+void LoadIMU(const string &strImuPath, vector<double> &vTimeStamps, vector<cv::Point3f> &vAcc, vector<cv::Point3f> &vGyro)
+{
+    ifstream fImu;
+    fImu.open(strImuPath.c_str());
+    vTimeStamps.reserve(50000);
+    vAcc.reserve(50000);
+    vGyro.reserve(50000);
+
+    while(!fImu.eof())
+    {
+        string s;
+        getline(fImu,s);
+
+        if (s[0] == '#')
+            // SKips the first line
+            continue;
+
+        if(!s.empty())
+        {
+            string item;
+            size_t pos = 0;
+            double data[7];
+            int count = 0;
+            while ((pos = s.find(',')) != string::npos) {
+                item = s.substr(0, pos);
+                data[count++] = stod(item);
+                s.erase(0, pos + 1);
+            }
+            item = s.substr(0, pos);
+            data[6] = stod(item);
+
+            vTimeStamps.push_back(data[0]*1e-9);
+            vAcc.push_back(cv::Point3f(data[4],data[5],data[6]));
+            vGyro.push_back(cv::Point3f(data[1],data[2],data[3]));
         }
     }
 }

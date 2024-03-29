@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
+# Set the minimum required C++ standard to C++14
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 project(ORB_SLAM3)
 
 IF(NOT CMAKE_BUILD_TYPE)
@@ -388,3 +392,15 @@ if(realsense2_FOUND)
             Examples_old/Stereo-Inertial/stereo_inertial_realsense_D435i.cc)
     target_link_libraries(stereo_inertial_realsense_D435i_old ${PROJECT_NAME})
 endif()
+
+
+# Harbor examples
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/HarborStarter/visual)
+add_executable(harbor_camera
+        HarborStarter/visual/harbor_camera.cc)
+target_link_libraries(harbor_camera ${PROJECT_NAME})
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/HarborStarter/visual-inertial)
+add_executable(harbor_camera_inertial
+        HarborStarter/visual-inertial/harbor_camera_inertial.cc)
+target_link_libraries(harbor_camera_inertial ${PROJECT_NAME})
