@@ -2148,7 +2148,7 @@ void Tracking::Track()
                 Verbose::PrintMess("Track lost for less than one second...", Verbose::VERBOSITY_NORMAL);
                 if(!pCurrentMap->isImuInitialized() || !pCurrentMap->GetIniertialBA2())
                 {
-                    cout << "IMU is not or recently initialized. Reseting active map..." << endl;
+                    cout << "IMU is not or recently initialized. Reseting active map because -> pCurrentMapInitialized:" << pCurrentMap->isImuInitialized() << " or pCurrentMap->GetIniertialBA2(): "<< pCurrentMap->GetIniertialBA2() <<endl;
                     mpSystem->ResetActiveMap();
                 }
 
