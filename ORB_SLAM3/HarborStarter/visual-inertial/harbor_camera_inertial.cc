@@ -24,6 +24,8 @@
 
 #include<System.h>
 
+#define CAM_TO_IMU_SHIFT -0.0403806549886
+
 using namespace std;
 
 void LoadImages(const string &strImagePath, const string &strPathTimes,
@@ -31,6 +33,7 @@ void LoadImages(const string &strImagePath, const string &strPathTimes,
 
 void LoadIMU(const string &strImuPath, vector<double> &vTimeStamps, vector<cv::Point3f> &vAcc, vector<cv::Point3f> &vGyro);
 
+double IMU_Time_True (double inputTime);
 
 int main(int argc, char **argv)
 {  
@@ -121,7 +124,7 @@ int main(int argc, char **argv)
     int fps = 20;
     float dT = 1.f/fps;
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
-    ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::IMU_MONOCULAR, true, 0, output_file_name);
+    ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::IMU_MONOCULAR, true);
     float imageScale = SLAM.GetImageScale();
 
     double t_resize = 0.f;
@@ -144,7 +147,7 @@ int main(int argc, char **argv)
         for(int ni=0; ni<nImages[seq]; ni++, proccIm++)
         {
             // Read image from file
-            im = cv::imread(vstrImageFilenames[seq][ni],cv::IMREAD_UNCHANGED); //CV_LOAD_IMAGE_UNCHANGED);
+            im = cv::imread(vstrImageFilenames[seq][ni],cv::IMREAD_GRAYSCALE); //CV_LOAD_IMAGE_UNCHANGED);
             
         //     clahe->apply(im,im);
             //apply image enhancement 
@@ -344,9 +347,12 @@ void LoadIMU(const string &strImuPath, vector<double> &vTimeStamps, vector<cv::P
             item = s.substr(0, pos);
             data[6] = stod(item);
 
-            vTimeStamps.push_back(data[0]*1e-9);
+            double time = data[0] * 1e-9; //+ 0.0403806549886;
+
+            vTimeStamps.push_back(time);
             vAcc.push_back(cv::Point3f(data[4],data[5],data[6]));
             vGyro.push_back(cv::Point3f(data[1],data[2],data[3]));
         }
     }
+    std::cout << "Found: " << vAcc.size() << " IMU points" << std::endl;
 }

@@ -135,9 +135,9 @@ void LocalMapping::Run()
                             mTinit += mpCurrentKeyFrame->mTimeStamp - mpCurrentKeyFrame->mPrevKF->mTimeStamp;
                         if(!mpCurrentKeyFrame->GetMap()->GetIniertialBA2())
                         {
-                            if((mTinit<10.f) && (dist<0.02))
+                            if((mTinit<2.f) && (dist<0.005))
                             {
-                                cout << "Not enough motion for initializing. Reseting..." << endl;
+                                cout << "Not enough motion for initializing. Reseting because: " << mTinit << " and " << dist <<endl;
                                 unique_lock<mutex> lock(mMutexReset);
                                 mbResetRequestedActiveMap = true;
                                 mpMapToReset = mpCurrentKeyFrame->GetMap();
