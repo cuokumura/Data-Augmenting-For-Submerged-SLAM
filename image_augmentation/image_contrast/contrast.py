@@ -9,6 +9,7 @@ from tqdm import tqdm
 
 # sample command: 
 # python contrast.py -i C:\Users\daphn\Desktop\Data-Augmenting-For-Submerged-SLAM\image_augmentation\images -c 1.0 -r C:\Users\daphn\Desktop\Data-Augmenting-For-Submerged-SLAM\image_augmentation\contrast_images_rgb\ -b C:\Users\daphn\Desktop\Data-Augmenting-For-Submerged-SLAM\image_augmentation\contrast_images_bw\
+# python3 contrast.py -i /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/temp_folder -c 1.0 -r /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/contrast_images_rgb/ -b /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/contrast_images_bw/
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--imgDir", required=True,
@@ -44,7 +45,7 @@ def save_bw(bw_dir, image_name, image):
 print("Attempting to apply contrasts to images...")
 
 for imgName in tqdm(os.listdir(imgDir), desc="Applying contrasts", colour="green"):
-    imgPath = imgDir + '\\' + imgName
+    imgPath = imgDir + '/' + imgName
     image = Image.open(imgPath)
     # Convert the image to a PyTorch tensor
     tensor_image = transforms.ToTensor()(image)
