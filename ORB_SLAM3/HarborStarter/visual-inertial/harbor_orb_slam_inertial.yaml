@@ -45,11 +45,14 @@ Tbc:
    rows: 4
    cols: 4
    dt: f
-   data: [-0.99978035,  0.01210101, 0.01711187, -0.01866921,
-            0.0169654, -0.01210461, 0.9997828, 0.02125636,
-            0.01230552, 0.99985351, 0.01189665, -0.1489863, 
+#   data: [-0.99978035,  0.01210101, 0.01711187, -0.01866921,
+#            0.0169654, -0.01210461, 0.9997828, 0.02125636,
+#            0.01230552, 0.99985351, 0.01189665, -0.1489863, 
+#            0.0, 0.0, 0.0, 1.0]
+   data: [-0.99978035,  0.0169654,  0.01230552, -0.01719238,
+            0.01210101, -0.01210461, 0.99985351,  0.14944769,
+            0.01711187,  0.9997828,  0.01189665, -0.01915984, 
             0.0, 0.0, 0.0, 1.0]
-
 # IMU noise
 IMU.NoiseGyro: 0.00001 
 IMU.NoiseAcc: 0.0002 
@@ -62,13 +65,13 @@ IMU.InsertKFsWhenLost: 1
 #--------------------------------------------------------------------------------------------
 
 # ORB Extractor: Number of features per image
-ORBextractor.nFeatures: 2000
+ORBextractor.nFeatures: 2200
 
 # ORB Extractor: Scale factor between levels in the scale pyramid 	
 ORBextractor.scaleFactor: 1.2
 
 # ORB Extractor: Number of levels in the scale pyramid	
-ORBextractor.nLevels: 8
+ORBextractor.nLevels: 10
 
 # ORB Extractor: Fast threshold
 # Image is divided in a grid. At each cell FAST are extracted imposing a minimum response.
