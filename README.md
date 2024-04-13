@@ -15,6 +15,16 @@ This repository contains our code for our final project for EECS 568: Mobile Rob
 ## Download the AQUALOC Datset
 The AQUALOC dataset can be found [here](https://www.lirmm.fr/aqualoc/). Please download the appropiate files.
 
-## ORB-SLAM
+## ORB-SLAM 3
 
 ## Data Augmentation 
+We will perform two data augmentations on the AQUALOC dataset: contrast and brightness. Below are the directions to perform the augmentations.
+
+### Contrast
+
+### Brightness
+We will use two different deep learning models for brightness enhancement. The directions are as follows:
+
+#### EnlightenGAN
+
+#### Zero-DCE
