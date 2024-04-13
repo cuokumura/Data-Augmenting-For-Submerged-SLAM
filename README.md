@@ -18,7 +18,15 @@ The AQUALOC dataset can be found [here](https://www.lirmm.fr/aqualoc/). Please d
 ## ORB-SLAM 3
 
 ## Data Augmentation 
-We will perform two data augmentations on the AQUALOC dataset: contrast and brightness. Below are the directions to perform the augmentations.
+We will perform two data augmentations on the AQUALOC dataset: contrast and brightness. Below are the directions to perform the augmentations. It is recommended to set up a virtual environment for each of these tasks, such as Conda. Please see the Conda [documentation](https://docs.conda.io/en/latest/) for more information. Create a Conda environment as follows:
+```
+conda create -n <new_name>
+conda activate <new_name>
+```
+where <new_name> is the name of your Conda environment. Remember to exit the environment after you are done as follows:
+```
+conda deactivate <new_name>
+```
 
 ### Contrast
 
@@ -26,5 +34,11 @@ We will perform two data augmentations on the AQUALOC dataset: contrast and brig
 We will use two different deep learning models for brightness enhancement. The directions are as follows:
 
 #### EnlightenGAN
+##### Step 1: Activate the Conda environment
+- Please see the instructions above.
+#### Step 2: Install the EnlightenGAN inference wrapper [repository](https://github.com/arsenyinfo/EnlightenGAN-inference)
+```
+pip3 install git+https://github.com/arsenyinfo/EnlightenGAN-inference
+```
 
 #### Zero-DCE
