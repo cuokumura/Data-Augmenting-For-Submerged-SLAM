@@ -32,6 +32,10 @@ Please see the code for contrast.py. You will need to speficy the command line a
 - --imgContrast: the contrast factor to be applied to the images in --imgDir.
 - --rgbPath: the path to the directory to store the RGB contrasted images.
 - --bwPath: the path to the directory to store the grayscale contrasted images. 
+An example command looks like:
+```
+python3 contrast.py -i /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/temp_folder -c 1.0 -r /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/contrast_images_rgb/ -b /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/contrast_images_bw/
+```
 
 ### Brightness
 We will use two different deep learning models for brightness enhancement. The directions are as follows:
