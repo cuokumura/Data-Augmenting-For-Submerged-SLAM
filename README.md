@@ -15,8 +15,6 @@ This repository contains our code for our final project for EECS 568: Mobile Rob
 ## Download the AQUALOC Datset
 The AQUALOC dataset can be found [here](https://www.lirmm.fr/aqualoc/). Please download the appropiate files.
 
-## ORB-SLAM 3
-
 ## Data Augmentation 
 We will perform two data augmentations on the AQUALOC dataset: contrast and brightness. Below are the directions to perform the augmentations. It is recommended to set up a virtual environment for each of these tasks, such as Conda. Please see the Conda [documentation](https://docs.conda.io/en/latest/) for more information. Create a Conda environment as follows:
 ```
@@ -29,6 +27,11 @@ conda deactivate <new_name>
 ```
 
 ### Contrast
+Please see the code for contrast.py. You will need to speficy the command line arguments as follows:
+- --imgDir: path to the image folder that contrast adjustment will be performed on.
+- --imgContrast: the contrast factor to be applied to the images in --imgDir.
+- --rgbPath: the path to the directory to store the RGB contrasted images.
+- --bwPath: the path to the directory to store the grayscale contrasted images. 
 
 ### Brightness
 We will use two different deep learning models for brightness enhancement. The directions are as follows:
@@ -69,3 +72,7 @@ To run Zero-DCE, please see the code for lowlight_test.py within the Zero-DCE_co
 python3 lowlight_test.py
 ```
 **Note:** Zero-DCE was developed for RGB images. However, the images in the AQUALOC dataset are grayscale. Therefore, we modified the Zero-DCE code to take in grayscale images. 
+
+## ORB-SLAM 3
+
+
