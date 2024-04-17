@@ -16,9 +16,22 @@ import glob
 import time
 from tqdm import tqdm
 
+ap = argparse.ArgumentParser()
+ap.add_argument("-i", "--imgDir", required=True,
+	help="path to image folder to be analyzed")
+ap.add_argument("-o", "--output", required=True,
+	help="output folder name")
+
+args = vars(ap.parse_args())
+
+imgDir=args["imgDir"]
+output_directory = args["output"]
+
+os.makedirs(output_directory, exist_ok=True)
+
 
  
-def lowlight(image_path):
+def infer(image_path):
 	os.environ['CUDA_VISIBLE_DEVICES']='0'
 	data_lowlight = Image.open(image_path)
 
@@ -43,29 +56,17 @@ def lowlight(image_path):
 	DCE_net.load_state_dict(torch.load('snapshots/Epoch99.pth'))
 	_,enhanced_image,_ = DCE_net(data_lowlight)
 
-	image_path = image_path.replace('test_data','result')
-	result_path = image_path
-	if not os.path.exists(image_path.replace('/'+image_path.split("/")[-1],'')):
-		os.makedirs(image_path.replace('/'+image_path.split("/")[-1],''))
-
-	torchvision.utils.save_image(enhanced_image, result_path)
-
-if __name__ == '__main__':
-# test_images
-	with torch.no_grad():
-		filePath = 'data/test_data/'
-	
-		file_list = os.listdir(filePath)
-
-		print("Attempting to apply brightness to images through Zero DCE...")
+	return enhanced_image
 
 
-		for file_name in file_list:
-			test_list = glob.glob(filePath+file_name+"/*") 
-			for image in tqdm(test_list, desc="Adjusting brightness", colour="green"):
-				lowlight(image)
+with torch.no_grad():
+	print("Attempting to apply brightness to images through Zero DCE...")
+ 
+	for image in tqdm(os.listdir(imgDir), desc="Adjusting brightness", colour="green"):
+		img = infer(image)
+		torchvision.utils.save_image(img, output_directory)
 		
-		print("Brightness images are saved succesfully!")
+	print("Brightness images are saved succesfully!")
 
 		
 
