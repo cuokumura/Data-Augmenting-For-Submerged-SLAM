@@ -83,7 +83,23 @@ python3 lowlight_test.py
 Our team utilized ORB-SLAM3 to estimate the robot's trajectory because it is a general-use, highly-performant, modern visual SLAM algorithm that comes with a "pre-trained" Bag-of-Words model. The following explains the usage of ORB-SLAM3 with the Aqualoc Dataset
 
 ### Step 1: Installation of ORB-SLAM3
-Please follow the installation instructions for ORB-SLAM3 in this repo's 
+Please follow the installation instructions for ORB-SLAM3 in this repo's "ORB_SLAM3" folder's README.md. You will need to install multiple dependencies on your machine. It is also recommended to setup a virtual environment to run ORB-SLAM3 such as a Docker container. 
 
-### Step 2
+### Step 2: Build the ORB-SLAM3 programs via CMake
+```
+# First, navigate to the ORB_SLAM3 directory
+cd ORB_SLAM3
+
+# Create a build folder to store executables and build files
+mkdir build
+
+# Navigate to newly-created build
+cd build
+
+# Prepare the folder with CMake
+cmake ..
+
+# Make the programs outlined in the CMakeLists.txt
+make
+```
 
