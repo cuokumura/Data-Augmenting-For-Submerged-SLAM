@@ -80,5 +80,10 @@ python3 lowlight_test.py
 **Note:** Zero-DCE was developed for RGB images. However, the images in the AQUALOC dataset are grayscale. Therefore, we modified the Zero-DCE code to take in grayscale images. 
 
 ## ORB-SLAM 3
+Our team utilized ORB-SLAM3 to estimate the robot's trajectory because it is a general-use, highly-performant, modern visual SLAM algorithm that comes with a "pre-trained" Bag-of-Words model. The following explains the usage of ORB-SLAM3 with the Aqualoc Dataset
 
+### Step 1: Installation of ORB-SLAM3
+Please follow the installation instructions for ORB-SLAM3 in this repo's 
+
+### Step 2
 
