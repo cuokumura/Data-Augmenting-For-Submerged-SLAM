@@ -54,7 +54,7 @@ Tbc:
             0.01711187,  0.9997828,  0.01189665, -0.01915984, 
             0.0, 0.0, 0.0, 1.0]
 # IMU noise
-IMU.NoiseGyro: 0.00001 
+IMU.NoiseGyro: 0.0001 
 IMU.NoiseAcc: 0.0002 
 IMU.GyroWalk: 0.001   
 IMU.AccWalk: 0.002
@@ -65,13 +65,13 @@ IMU.InsertKFsWhenLost: 1
 #--------------------------------------------------------------------------------------------
 
 # ORB Extractor: Number of features per image
-ORBextractor.nFeatures: 2200
+ORBextractor.nFeatures: 2000
 
 # ORB Extractor: Scale factor between levels in the scale pyramid 	
 ORBextractor.scaleFactor: 1.2
 
 # ORB Extractor: Number of levels in the scale pyramid	
-ORBextractor.nLevels: 10
+ORBextractor.nLevels: 8
 
 # ORB Extractor: Fast threshold
 # Image is divided in a grid. At each cell FAST are extracted imposing a minimum response.
