@@ -73,9 +73,12 @@ There are different dependencies needed between EnlightenGAN and Zero-DCE. There
 git clone https://github.com/Li-Chongyi/Zero-DCE.git
 ```
 ##### Step 3: Run Zero-DCE on AQUALOC 
-To run Zero-DCE, please see the code for lowlight_test.py within the Zero-DCE_code folder. An example command looks like:
+To run Zero-DCE, please see the code for brightness.py. You will need to specify command line arguments as follows:
+- --imgDir: path to the image folder that Zero-DCE will be run on.
+- --output: name of the output folder where Zero-DCE will store results. 
+An example command looks like:
 ```
-python3 lowlight_test.py
+python3 brightness.py -i /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/temp_folder -o /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/brightness_images
 ```
 **Note:** Zero-DCE was developed for RGB images. However, the images in the AQUALOC dataset are grayscale. Therefore, we modified the Zero-DCE code to take in grayscale images. 
 
