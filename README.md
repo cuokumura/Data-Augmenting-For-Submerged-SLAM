@@ -14,7 +14,7 @@ Our project enhances underwater SLAM performance using data augmentation techniq
 * Presentation
 * Poster
 
-## Download the AQUALOC Datset
+## Download the AQUALOC Dataset
 The AQUALOC dataset can be found [here](https://www.lirmm.fr/aqualoc/). Please download the appropiate files.
 
 ## Data Augmentation 
