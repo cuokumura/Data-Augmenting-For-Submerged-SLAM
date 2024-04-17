@@ -103,3 +103,41 @@ cmake ..
 make
 ```
 
+### Step 3: Provide Aqualoc Calibration Files
+ORB-SLAM3 requires calibrations files to mathematically relate different sensor frames and rectify camera perspective. The Aqualoc dataset comes with pre-determined calibration parameters which are already implemented in the HarborStarter/visual/harbor_orb_slam.yaml and the HarborStarter/visual-inertial/harbor_orb_slam_inertial.yaml files. 
+
+**Note:** HarborStarter/visual/harbor_orb_slam.yaml does not contain any IMU information because all files and executables in the HarborStarter/visual folder will rely only upon camera stream. The HarborStarter/visual-intertial folder builds upon this by sensor fusing IMU data, hence the folder name differences.
+
+### Step 4: Run the ORB-SLAM3 program on Aqualoc datasets with visual-only data
+The newly-create executable for running ORB-SLAM3 with Aqualoc visual-only data is located in the HarborStarter/visual folder. To run it you must do the following:
+```
+cd HarborStarter/visual
+./harbor_camera [path-to-ORB-BOW-vocabulary] [.yaml calibration file path] [folder path where Aqualoc images contained] [.csv file outlining the sequence offile names for Aqualoc images] [desired name of output trajectory data]
+```
+
+
+Alternatively, a Shell file in the ORB_SLAM3 directory is provided for convenience. You will have to edit some of the arguments contained in the Shell script, particularly the file paths of where the Aqualoc data is contained.
+Once the Shell script configuration is edited, start the ORB-SLAM3 application by doing the following:
+```
+cd ORB_SLAM3
+./start_test.sh
+```
+
+### Step 5: Run the ORB-SLAM3 program on Aqualoc datasets with visual + inertial data
+Similarily, the newly-create executable for running ORB-SLAM3 with Aqualoc visual + inertial data is located in the HarborStarter/visual-inertial folder. To run it you must do the following:
+```
+cd HarborStarter/visual-inertial
+./harbor_camera_inertial [path-to-ORB-BOW-vocabulary] [.yaml calibration file path] [folder path where Aqualoc images contained] [.csv file outlining the sequence offile names for Aqualoc images] [.csv file's path containing the IMU data] [desired name of output trajectory data]
+```
+
+
+Alternatively, a Shell file in the ORB_SLAM3 directory is provided for convenience. You will have to edit some of the arguments contained in the Shell script, particularly the file paths of where the Aqualoc data is contained.
+Once the Shell script configuration is edited, start the ORB-SLAM3 application by doing the following:
+```
+cd ORB_SLAM3
+./start_visual-inertial.sh
+```
+
+## Evaluating Trajectory Estimation
+
+
