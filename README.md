@@ -6,6 +6,8 @@ This repository contains our code for our final project for EECS 568: Mobile Rob
 * Tiffany Parise (tparise@umich.edu): ECE Master's (Specialization: Computer Vision).
 * Daphne Tsai (dvtsai@umich.edu): CSE Master's student.
 
+Our project enhances underwater SLAM performance using data augmentation techniques, focusing on brightness and contrast adjustments within the ORB-SLAM3 visual processing pipeline. Our approach addresses the unique challenges of underwater environments and provides a framework for other applications with compromised visual data.
+
 ## Relevant Links
 * Paper
 * Video
