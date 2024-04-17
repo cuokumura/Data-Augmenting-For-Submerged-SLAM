@@ -29,7 +29,7 @@ conda deactivate <new_name>
 ```
 
 ### Contrast
-Please see the code for contrast.py. You will need to speficy the command line arguments as follows:
+Please see the code for contrast.py. You will need to specify the command line arguments as follows:
 - --imgDir: path to the image folder that contrast adjustment will be performed on.
 - --imgContrast: the contrast factor to be applied to the images in --imgDir.
 - --rgbPath: the path to the directory to store the RGB contrasted images.
@@ -42,7 +42,7 @@ python3 contrast.py -i /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_aug
 ### Brightness
 We will use two different deep learning models for brightness enhancement. The directions are as follows:
 
-#### EnlightenGAN
+#### Model 1: EnlightenGAN
 The original work of EnlightenGAN can be found [here](https://github.com/VITA-Group/EnlightenGAN).
 ##### Step 1: Activate the Conda environment
 - Please see the instructions above.
@@ -64,7 +64,7 @@ model = EnlightenOnnxModel(providers = ["CPUExecutionProvider"])
 ```
 If you leave the providers blank, the model will default to CUDA. 
 
-#### Zero-DCE
+#### Model 2: Zero-DCE
 The original work of Zero-DCE can be found [here](https://github.com/Li-Chongyi/Zero-DCE). 
 ##### Step 1: Activate the Conda environment
 There are different dependencies needed between EnlightenGAN and Zero-DCE. Therefore, it is recommended to have different environments for the two models to avoid any dependency conflicts. Please see the instructions above. 
