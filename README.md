@@ -138,6 +138,11 @@ cd ORB_SLAM3
 ./start_visual-inertial.sh
 ```
 
+### Example Output on the ORB-SLAM3 GUI
+If the program is running properly, you should see points populating a 3D map like the following:
+
+<img src="images/example_pcl_output.jpg">
+
 ## Evaluating Trajectory Estimation
 
 
