@@ -18,7 +18,7 @@ Our project enhances underwater SLAM performance using data augmentation techniq
 The AQUALOC dataset can be found [here](https://www.lirmm.fr/aqualoc/). Please download the appropiate files. Our project uses data from the Harbor sequence, but you can take a look at the Archaelogical sequence of this dataset if you'd like. 
 
 ## Data Augmentation 
-We will perform two data augmentations on the AQUALOC dataset: contrast and brightness. Below are the directions to perform the augmentations. It is recommended to set up a virtual environment for each of these tasks, such as Conda. Please see the Conda [documentation](https://docs.conda.io/en/latest/) for more information. Create a Conda environment as follows:
+We will perform two data augmentations on the AQUALOC dataset: contrast and brightness. For the augmentations, the raw data files are downloaded from the Harbor sequences in the AQUALOC datatset, and the images folder is used. Below are the directions to perform the augmentations. It is recommended to set up a virtual environment for each of these tasks, such as Conda. Please see the Conda [documentation](https://docs.conda.io/en/latest/) for more information. Create a Conda environment as follows:
 ```
 conda create -n <new_name>
 conda activate <new_name>
