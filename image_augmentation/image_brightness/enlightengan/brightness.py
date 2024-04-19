@@ -9,8 +9,9 @@ import argparse
 import numpy as np 
 from tqdm import tqdm
 
-# sample command: 
-# python3 brightness.py -i /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/temp_folder -o /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/brightness_images
+# https://github.com/VITA-Group/EnlightenGAN/tree/master
+# Modified by Daphne Tsai (dvtsa@umich.edu)
+# EECS 568: Mobile Robotics, Winter 2024
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--imgDir", required=True,
@@ -25,11 +26,11 @@ output_directory = args["output"]
 
 os.makedirs(output_directory, exist_ok=True)
 
-# by default, CUDAExecutionProvider is used
-# model = EnlightenOnnxModel()
-# however, one can choose the providers priority, e.g.: 
-# this would probably be faster on CUDA but versions are ....
-model = EnlightenOnnxModel(providers = ["CPUExecutionProvider"])
+# CUDAExecutionProvider is default
+model = EnlightenOnnxModel()
+# You can change the execution provider to CPU if needed. 
+# Comment out the above line and uncomment the below line.
+# model = EnlightenOnnxModel(providers = ["CPUExecutionProvider"])
 
 print("Attempting to apply brightness to images...")
 

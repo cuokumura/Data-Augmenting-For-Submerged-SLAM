@@ -2,8 +2,8 @@
 
 ## Overview 
 This repository contains our code for our final project for EECS 568: Mobile Robotics during the Winter 2024 Semester at the University of Michigan. Our team is made up of:
-* Christopher Okumura (cokumura@umich.edu): ECE Master's (Specialization: Robotics).
-* Tiffany Parise (tparise@umich.edu): ECE Master's (Specialization: Computer Vision).
+* Christopher Okumura (cokumura@umich.edu): ECE Master's student (Specialization: Robotics).
+* Tiffany Parise (tparise@umich.edu): ECE Master's student (Specialization: Computer Vision).
 * Daphne Tsai (dvtsai@umich.edu): CSE Master's student.
 
 Our project enhances underwater SLAM performance using data augmentation techniques, focusing on brightness and contrast adjustments within the ORB-SLAM3 visual processing pipeline. Our approach addresses the unique challenges of underwater environments and provides a framework for other applications with compromised visual data.
@@ -15,7 +15,7 @@ Our project enhances underwater SLAM performance using data augmentation techniq
 * Poster
 
 ## Download the AQUALOC Dataset
-The AQUALOC dataset can be found [here](https://www.lirmm.fr/aqualoc/). Please download the appropiate files.
+The AQUALOC dataset can be found [here](https://www.lirmm.fr/aqualoc/). Please download the appropiate files. Our project uses data from the Harbor sequence, but you can take a look at the Archaelogical sequence of this dataset if you'd like. 
 
 ## Data Augmentation 
 We will perform two data augmentations on the AQUALOC dataset: contrast and brightness. Below are the directions to perform the augmentations. It is recommended to set up a virtual environment for each of these tasks, such as Conda. Please see the Conda [documentation](https://docs.conda.io/en/latest/) for more information. Create a Conda environment as follows:

@@ -7,9 +7,8 @@ import argparse
 import numpy as np 
 from tqdm import tqdm
 
-# sample command: 
-# python contrast.py -i C:\Users\daphn\Desktop\Data-Augmenting-For-Submerged-SLAM\image_augmentation\images -c 1.0 -r C:\Users\daphn\Desktop\Data-Augmenting-For-Submerged-SLAM\image_augmentation\contrast_images_rgb\ -b C:\Users\daphn\Desktop\Data-Augmenting-For-Submerged-SLAM\image_augmentation\contrast_images_bw\
-# python3 contrast.py -i /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/temp_folder -c 1.0 -r /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/contrast_images_rgb/ -b /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/contrast_images_bw/
+# Daphne Tsai (dvtsai@umich.edu)
+# EECS 568: Mobile Robotics, Winter 2024 
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--imgDir", required=True,
@@ -34,10 +33,12 @@ os.makedirs(output_directory_bw, exist_ok=True)
 def adjust_contrast(input_image, contrast_factor):
     return transforms.functional.adjust_contrast(input_image, contrast_factor)
 
+# Save RGB contrasted images 
 def save_rgb(rgb_dir, image_name, image):
     output_path_rgb = os.path.join(rgb_dir, image_name)
     plt.imsave(output_path_rgb, image) 
 
+# Save grayscale contrasted images
 def save_bw(bw_dir, image_name, image):
     os.chdir(bw_dir)
     image.save(image_name)
@@ -50,17 +51,17 @@ for imgName in tqdm(os.listdir(imgDir), desc="Applying contrasts", colour="green
     # Convert the image to a PyTorch tensor
     tensor_image = transforms.ToTensor()(image)
 
-    # contrast_factor = 1.0
     adjusted_tensor_image = adjust_contrast(tensor_image, contrast_factor)  
 
     adjusted_image = transforms.ToPILImage()(adjusted_tensor_image)
 
-    # NOTE: uncomment this to show rgb contrast image 
+    # NOTE: uncomment this to show contrasted image on screen. You can use this if you 
+    # want to make sure the contrast is being applied correctly to the images.
     # plt.imshow(adjusted_image)
-    # plt.axis('off')  # Hide the axis
+    # plt.axis('off')
     # plt.show()  
 
-    # save into rgb
+    # Save images into directory 
     save_rgb(output_directory_rgb, imgName, adjusted_image)
 
     save_bw(output_directory_bw, imgName, adjusted_image)
