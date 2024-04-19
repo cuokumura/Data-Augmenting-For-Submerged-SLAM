@@ -15,7 +15,9 @@ Our project enhances underwater SLAM performance using data augmentation techniq
 * Poster
 
 ## Download the AQUALOC Dataset
-The AQUALOC dataset can be found [here](https://www.lirmm.fr/aqualoc/). Please download the appropiate files. Our project uses data from the Harbor sequence, but you can take a look at the Archaelogical sequence of this dataset if you'd like. 
+The AQUALOC dataset can be found [here](https://www.lirmm.fr/aqualoc/). Please download the appropiate files. Our project uses data from the Harbor sequence, but you can take a look at the Archaelogical sequence of this dataset if you'd like. An example of an image that we will use for this project is as follows:
+
+<img src="images/original.png">
 
 ## Data Augmentation 
 We will perform two data augmentations on the AQUALOC dataset: contrast and brightness. For the augmentations, the raw data files are downloaded from the Harbor sequences in the AQUALOC datatset, and the images folder is used. Below are the directions to perform the augmentations. It is recommended to set up a virtual environment for each of these tasks, such as Conda. Please see the Conda [documentation](https://docs.conda.io/en/latest/) for more information. Create a Conda environment as follows:
@@ -38,6 +40,11 @@ An example command looks like:
 ```
 python3 contrast.py -i /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/temp_folder -c 1.0 -r /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/contrast_images_rgb/ -b /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/contrast_images_bw/
 ```
+If the program is running properly, you should be able to generate the grayscale and RGB contrasted images:
+
+<img src="images/contrast_bw_01.png">
+
+<img src="images/contrast_rgb_01.png">
 
 ### Brightness
 We will use two different deep learning models for brightness enhancement. The directions are as follows:
@@ -64,6 +71,10 @@ model = EnlightenOnnxModel(providers = ["CPUExecutionProvider"])
 ```
 If you leave the providers blank, the model will default to CUDA. 
 
+If the program is running properly, you should be able to generate the brightened images:
+
+<img src="images/brightness_gan_01.png">
+
 #### Model 2: Zero-DCE
 The original work of Zero-DCE can be found [here](https://github.com/Li-Chongyi/Zero-DCE). 
 ##### Step 1: Activate the Conda environment
@@ -81,6 +92,10 @@ An example command looks like:
 python3 brightness.py -i /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/temp_folder -o /home/daphne/Data-Augmenting-For-Submerged-SLAM/image_augmentation/brightness_images
 ```
 **Note:** Zero-DCE was developed for RGB images. However, the images in the AQUALOC dataset are grayscale. Therefore, we modified the Zero-DCE code to take in grayscale images. 
+
+If the program is running properly, you should be able to generate the brightened images:
+
+<img src="images/brightness_zerodce_01.png">
 
 ## ORB-SLAM 3
 Our team utilized ORB-SLAM3 to estimate the robot's trajectory because it is a general-use, highly-performant, modern visual SLAM algorithm that comes with a "pre-trained" Bag-of-Words model. The following explains the usage of ORB-SLAM3 with the Aqualoc Dataset
@@ -142,7 +157,7 @@ cd ORB_SLAM3
 ```
 
 ### Example Output on the ORB-SLAM3 GUI
-If the program is running properly, you should see points populating a 3D map like the following:
+program is running properly, you should see points poIf the pulating a 3D map like the following:
 
 <img src="images/example_pcl_output.jpg">
 
