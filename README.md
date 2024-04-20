@@ -10,7 +10,7 @@ Our project enhances underwater SLAM performance using data augmentation techniq
 
 ## Relevant Links
 * Paper
-* Video
+* Video: https://www.youtube.com/watch?v=VCBp90QouGk
 * Presentation
 * Poster
 
