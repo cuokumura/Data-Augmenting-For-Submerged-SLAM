@@ -162,5 +162,32 @@ program is running properly, you should see points poIf the pulating a 3D map li
 <img src="images/example_pcl_output.jpg">
 
 ## Evaluating Trajectory Estimation
+This repository contains code to evaluate the quality of ORB-SLAM3's trajectory estimates compared to the ground-truth trajectory provided in the AQUALOC dataset. All relevant code is located in the notebook evaluation_metrics.ipynb in the Evaluation folder.
 
+### Installing Required Packages
+Please run the following code in your terminal to install the necessary packages:
+```
+pip install evo
+pip install matplotlib
+pip install numpy
+```
+
+### Procuring the Required Files
+There are two required files:
+1. A text file containing the ground-truth trajectory. This file is available in the AQUALOC dataset [here](https://seafile.lirmm.fr/d/79b03788f29148ca84e5/files/?p=%2FHarbor_sites_sequences%2Fharbor_groundtruth_files%2Fharbor_colmap_traj_sequence_01.txt).
+2. A text file containing the estimated trajectory. This file is outputted by running ORB-SLAM3 on Harbor Sequence 01 in the AQUALOC dataset.
+
+Both text files must be set up such that each row contains data in the order: ID, x, y, z, qx, qy, qz, qw. In this sequence, ID is the index number or timestep of the image, (x,y,z) is the camera position in the world frame, and (qz,qy,qz,qw) is a quaternion representing the camera orientation.
+
+All of our evaluated text files are located in the Evaluation folder.
+
+### Hyperparameter Tuning
+The evaluation notebook includes a grid search to select the value of the hyperparameter representing the time offset. To help select an appropriate range of values for the grid search, there is code to plot the performance over different hyperparameter values. In addition, we provided a modified ground-truth file where the image index is replaced with the timestep, which allows for easier comparison with the timesteps in the trajectory estimate produced by ORB-SLAM3.
+
+### Quantitative and Qualitative Evaluation Methods
+The two main methods of evaluation are:
+1. Quantitative evaluation: Report performance on many metrics (Root-Mean Square Error (RMSE), Sum of Squared Errors (SSE), Mean Error, Median Error, Standard Deviation of the Error, Minimum Error, and Maximum Error).
+2. Qualitiative evaluation: Visualize the estimated and ground-truth trajectories in all three dimensions or in any selected two dimensions.
+
+Both methods have settings that allow your evaluation to account for potential differences in scale and alignment between your estimated trajectory and the ground-truth trajectory. Further, your evaluation can consider the full transformation error of the trajectory, or just the error in the translational or rotational components of the trajectory.
 
