@@ -9,10 +9,10 @@ This repository contains our code for our final project for EECS 568: Mobile Rob
 Our project enhances underwater SLAM performance using data augmentation techniques, focusing on brightness and contrast adjustments within the ORB-SLAM3 visual processing pipeline. Our approach addresses the unique challenges of underwater environments and provides a framework for other applications with compromised visual data.
 
 ## Relevant Links
-* Paper
+* Paper: https://drive.google.com/file/d/1xeqtomqMO3giA3OZ_EUe1N3uyMbMjpZS/view?usp=drive_link
 * Video: https://www.youtube.com/watch?v=VCBp90QouGk
-* Presentation
-* Poster
+* Presentation: https://drive.google.com/file/d/1hkuSMBFcrTAbJMwo4k2AfdMCOGpYQ1CJ/view?usp=drive_link
+* Poster: https://drive.google.com/file/d/1oZBm6hWhGEw2XJjayxy8YPadtTlMalrU/view?usp=sharing
 
 ## Download the AQUALOC Dataset
 The AQUALOC dataset can be found [here](https://www.lirmm.fr/aqualoc/). Please download the appropiate files. Our project uses data from the Harbor sequence, but you can take a look at the Archaelogical sequence of this dataset if you'd like. An example of an image that we will use for this project is as follows:
