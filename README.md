@@ -157,7 +157,7 @@ cd ORB_SLAM3
 ```
 
 ### Example Output on the ORB-SLAM3 GUI
-program is running properly, you should see points poIf the pulating a 3D map like the following:
+If the program is running properly, you should see points populating a 3D map like the following:
 
 <img src="images/example_pcl_output.jpg">
 
